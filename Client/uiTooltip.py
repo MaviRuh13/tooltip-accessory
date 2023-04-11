@@ -100,7 +100,7 @@
 			
 			
 			if app.ENABLE_TOOLTIP_ACCESSORY:
-				self.__AppendMetinSlotInfo_AppendMetinSocketData_New(mtrlPos, mtrl, height, end, lv)
+				self.__AppendMetinSlotInfo_AppendMetinSocketData_New(mtrlPos, mtrl, height, end, lv, leftTime)
 			else:
 				self.__AppendMetinSlotInfo_AppendMetinSocketData(mtrlPos, mtrl, affectString1, affectString2, affectString3, leftTime)
 			mtrlPos+=1
@@ -131,7 +131,7 @@
 			self.ResizeToolTip()
 
 	if app.ENABLE_TOOLTIP_ACCESSORY:
-		def __AppendMetinSlotInfo_AppendMetinSocketData_New(self, index, metinSlotData, height=0, end=0, socket_lv=0):
+		def __AppendMetinSlotInfo_AppendMetinSocketData_New(self, index, metinSlotData, height=0, end=0, socket_lv=0, leftTime=0):
 			slotType = self.GetMetinSocketType(metinSlotData)
 			itemIndex = self.GetMetinItemIndex(metinSlotData)
 			
@@ -193,3 +193,18 @@
 				metinImage.SetPosition(1, 1)
 				lvText.SetPosition(6, 16)
 				lvText.SetText("Lv %d" % (socket_lv))
+
+			if 0 != leftTime:
+				timeText = ("|cffFFD700" + localeInfo.LEFT_TIME + " : " + localeInfo.SecondToDHM(leftTime))
+
+				timeTextLine = ui.TextLine()
+				timeTextLine.SetParent(self)
+				timeTextLine.SetFontName(self.defFontName)
+				timeTextLine.SetPackedFontColor(self.POSITIVE_COLOR)
+				timeTextLine.SetPosition(50, self.toolTipHeight + 16 + 2 + 16 + 2)
+				timeTextLine.SetOutline()
+				timeTextLine.SetFeather()
+				timeTextLine.Show()
+				timeTextLine.SetText(timeText)
+				self.childrenList.append(timeTextLine)
+				self.toolTipHeight += 16 + 2
